@@ -9,7 +9,7 @@
 
 var React = require('react');
 
-var TodoApp = require('./components/TodoApp.react');
+var TodoApp = require('./components/TodoApp.js');
 
 React.render(
   <TodoApp />,

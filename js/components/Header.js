@@ -10,7 +10,7 @@
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
 
-var TodoTextInput = require('./TodoTextInput.react');
+var TodoTextInput = require('./TodoTextInput.js');
 
 var Header = React.createClass({
 

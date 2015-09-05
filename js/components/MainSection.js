@@ -10,7 +10,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
-var TodoItem = require('./TodoItem.react');
+var TodoItem = require('./TodoItem.js');
 var TodoStore = require('../stores/TodoStore');
 
 
@@ -37,6 +37,18 @@ var MainSection = React.createClass({
   _onChange: function() {
     this.setState(getTodoState());
   },
+	getAreAllComplete:function(){
+		var allTodos = this.state.allTodos;
+		var areAllComplete = true;
+		for(id in allTodos){
+			if(!allTodos[id].complete){
+				areAllComplete = false;
+				break;
+			}
+		}
+		return areAllComplete;
+
+	},
   render: function() {
     // This section should be hidden by default
     // and shown when there are todos.
@@ -47,17 +59,19 @@ var MainSection = React.createClass({
     var allTodos = this.state.allTodos;
     var todos = [];
 
-    for (var key in allTodos) {
-      todos.push(<TodoItem key={key} todo={allTodos[key]} />);
-    }
+	var areAllComplete = this.getAreAllComplete();
+
+	  Object.keys(allTodos).forEach(function(id){
+		  todos.push(<TodoItem key={id} todo={allTodos[id]} />);
+	  });
 
     return (
       <section id="main">
         <input
           id="toggle-all"
           type="checkbox"
-          onChange={this._onToggleCompleteAll}
-          checked={this.props.areAllComplete ? 'checked' : ''}
+          onChange={this._onToggleCompleteAll.bind(this,areAllComplete)}
+          checked={areAllComplete ? 'checked' : ''}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
         <ul id="todo-list">{todos}</ul>
@@ -68,8 +82,14 @@ var MainSection = React.createClass({
   /**
    * Event handler to mark all TODOs as complete
    */
-  _onToggleCompleteAll: function() {
-    TodoActions.toggleCompleteAll();
+  _onToggleCompleteAll: function(areAllComplete) {
+
+    var todos = TodoStore.getTodos();
+    Object.keys(todos).forEach(function(id){
+		todos[id].complete = !areAllComplete;
+	})
+
+    TodoStore.write('todos',todos);
   }
 
 });

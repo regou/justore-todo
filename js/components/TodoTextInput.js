@@ -9,6 +9,7 @@
 
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var TodoStore = require('../stores/TodoStore');
 
 var ENTER_KEY_CODE = 13;
 

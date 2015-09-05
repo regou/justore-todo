@@ -10,7 +10,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
-var TodoTextInput = require('./TodoTextInput.react');
+var TodoTextInput = require('./TodoTextInput.js');
 var TodoStore = require('../stores/TodoStore');
 
 var classNames = require('classnames');
@@ -26,35 +26,10 @@ var TodoItem = React.createClass({
       isEditing: false
     };
   },
-
-  /**
-   * @return {object}
-   */
   render: function() {
     var todo = this.props.todo;
-
-    var input;
-    if (this.state.isEditing) {
-      input =
-        <TodoTextInput
-          className="edit"
-          onSave={this._onSave}
-          value={todo.text}
-        />;
-    }
-
-    // List items should get the class 'editing' when editing
-    // and 'completed' when marked as completed.
-    // Note that 'completed' is a classification while 'complete' is a state.
-    // This differentiation between classification and state becomes important
-    // in the naming of view actions toggleComplete() vs. destroyCompleted().
     return (
-      <li
-        className={classNames({
-          'completed': todo.complete,
-          'editing': this.state.isEditing
-        })}
-        key={todo.id}>
+      <li className={classNames({'completed': todo.complete,'editing': this.state.isEditing})} key={todo.id}>
         <div className="view">
           <input
             className="toggle"
@@ -67,7 +42,7 @@ var TodoItem = React.createClass({
           </label>
           <button className="destroy" onClick={this._onDestroyClick} />
         </div>
-        {input}
+		  {this.state.isEditing ? <TodoTextInput onSave={this._onSave} className="edit" value={todo.text}/>:null}
       </li>
     );
   },
@@ -79,7 +54,7 @@ var TodoItem = React.createClass({
     TodoStore.write('todos',todoId, {
 		  waitFor:function(id){
             return new Promise(function(res){
-              var todos = Object.assign({},TodoStore.read('todos'));
+              var todos = TodoStore.getTodos();
               todos[id].complete = !todos[id].complete;
               res(todos);
             });
@@ -103,7 +78,7 @@ var TodoItem = React.createClass({
 	  TodoStore.write('todos',todoId, {
 		  waitFor:function(id){
 			  return new Promise(function(res){
-				  var todos = Object.assign({},TodoStore.read('todos'));
+				  var todos = TodoStore.getTodos();
 				  todos[id].text = text;
 				  res(todos);
 			  });
@@ -114,17 +89,10 @@ var TodoItem = React.createClass({
   },
 
   _onDestroyClick: function() {
-	  var todoId = this.props.todo.id;
-    TodoStore.write('todos',todoId, {
-      waitFor:function(id){
-        return new Promise(function(res){
-          var todos = Object.assign({},TodoStore.read('todos'));
-			delete todos[id];
-          res(todos);
-        });
-
-      }
-    });
+	  var id = this.props.todo.id;
+	  var newTodos = TodoStore.getTodos();
+	  delete newTodos[id];
+    TodoStore.write('todos',newTodos);
   }
 
 });

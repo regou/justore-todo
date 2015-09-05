@@ -13,8 +13,9 @@
  */
 
 
-var Header = require('./Header.react');
-var MainSection = require('./MainSection.react');
+var Header = require('./Header.js');
+var MainSection = require('./MainSection.js');
+var Footer = require('./Footer.js');
 var React = require('react');
 
 
@@ -30,6 +31,7 @@ var TodoApp = React.createClass({
       <div>
         <Header />
         <MainSection/>
+        <Footer/>
       </div>
     );
   }

@@ -9,19 +9,37 @@
 
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var TodoActions = require('../actions/TodoActions');
+var TodoStore = require('../stores/TodoStore');
+
+function getTodoState() {
+  return {
+    allTodos: TodoStore.read('todos')
+  };
+}
+
 
 var Footer = React.createClass({
 
-  propTypes: {
-    allTodos: ReactPropTypes.object.isRequired
+  getInitialState:function(){
+    return getTodoState();
+  },
+  componentWillMount: function(){
+    var comp = this;
+    TodoStore.change.on('todos',comp._onChange)
+  },
+  componentWillUnmount:function(){
+    var comp = this;
+    TodoStore.change.removeListener('todos',comp._onChange)
+  },
+  _onChange: function() {
+    this.setState(getTodoState());
   },
 
   /**
    * @return {object}
    */
   render: function() {
-    var allTodos = this.props.allTodos;
+    var allTodos = this.state.allTodos;
     var total = Object.keys(allTodos).length;
 
     if (total === 0) {
@@ -67,7 +85,7 @@ var Footer = React.createClass({
    * Event handler to delete all completed TODOs
    */
   _onClearCompletedClick: function() {
-    TodoActions.destroyCompleted();
+	  TodoStore.clearCompleted();
   }
 
 });
