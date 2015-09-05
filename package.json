@@ -16,7 +16,7 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "watchify -o dest/bundle.js -v -d js/app.js"
+    "dev": "watchify -o dest/bundle.js -v -d js/app.js"
   },
   "author": "WangXiao",
   "browserify": {
