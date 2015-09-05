@@ -114,7 +114,17 @@ var TodoItem = React.createClass({
   },
 
   _onDestroyClick: function() {
-    TodoActions.destroy(this.props.todo.id);
+	  var todoId = this.props.todo.id;
+    TodoStore.write('todos',todoId, {
+      waitFor:function(id){
+        return new Promise(function(res){
+          var todos = Object.assign({},TodoStore.read('todos'));
+			delete todos[id];
+          res(todos);
+        });
+
+      }
+    });
   }
 
 });
