@@ -40,7 +40,7 @@ var Header = React.createClass({
     if (text.trim()){
       var id = (new Date()).getTime();
 
-        var newTodos = Object.assign({},TodoStore.read('todos'));
+        var newTodos = TodoStore.getTodos();
         newTodos[id] = {id:id,text:text,complete:false};
          TodoStore.write('todos',newTodos);
     }

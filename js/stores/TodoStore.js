@@ -1,5 +1,5 @@
 
-
+var objectAssign = require('object-assign');
 var justore = require('justore');
 
 
@@ -13,7 +13,7 @@ var TodoStore = new justore({
 
 
 TodoStore.getTodos = function(){
-	return Object.assign({},TodoStore.read('todos'));
+	return objectAssign({},TodoStore.read('todos'));
 };
 
 TodoStore.clearCompleted = function(){
