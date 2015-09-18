@@ -22,19 +22,11 @@ function getTodoState() {
 
 
 var MainSection = React.createClass({
-
+  mixins:[TodoStore.genReactMixin('todos')],
   getInitialState:function(){
     return getTodoState();
   },
-  componentWillMount: function(){
-    var comp = this;
-    TodoStore.change.on('todos',comp._onChange)
-  },
-  componentWillUnmount:function(){
-    var comp = this;
-    TodoStore.change.removeListener('todos',comp._onChange)
-  },
-  _onChange: function() {
+  onStoreChange: function() {
     this.setState(getTodoState());
   },
 	getAreAllComplete:function(){
