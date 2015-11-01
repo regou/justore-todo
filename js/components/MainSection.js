@@ -81,7 +81,8 @@ var MainSection = React.createClass({
 		todos[id].complete = !areAllComplete;
 	})
 
-    TodoStore.write('todos',todos);
+    TodoStore.writ('todos', todos);
+
   }
 
 });

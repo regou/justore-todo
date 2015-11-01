@@ -15,3 +15,16 @@ React.render(
   <TodoApp />,
   document.getElementById('todoapp')
 );
+
+window.onerror = function(err){
+  logException(err,{'where':'internal'});
+}
+
+window.onerror = function (message, file, line, column, errorObj) {
+  if(errorObj !== undefined) {
+    logException(errorObj,{'where':'internal'});
+  }else{
+    logException(message,{'where':'internal'});
+  }
+
+}

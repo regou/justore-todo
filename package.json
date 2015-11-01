@@ -13,6 +13,7 @@
   "devDependencies": {
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
+    "gulp-sentry-release": "^1.0.1",
     "reactify": "^0.15.2",
     "watchify": "^2.1.1"
   },
