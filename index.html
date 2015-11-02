@@ -13,19 +13,31 @@
       <p>Created by wx</p>
     </footer>
 
-    <script src="https://cdn.ravenjs.com/1.2.0/jquery,native/raven.min.js"></script>
-  <script>
-    Raven.config('https://df02024c03e94e5e820bd69970c3c8aa@app.getsentry.com/56684').install();
-    function logException(ex, context) {
-      Raven.captureException(ex, {
-        extra: context
-      });
-      /*eslint no-console:0*/
-      window.console && console.error && console.error(ex);
-    }
-
-  </script>
-
     <script src="dest/bundle.js"></script>
+    <script src="https://cdn.ravenjs.com/1.2.0/jquery,native/raven.min.js"></script>
+    <script>
+      if(Raven) {
+        Raven.config('https://df02024c03e94e5e820bd69970c3c8aa@app.getsentry.com/56684').install();
+        function logException(ex, context) {
+          Raven.captureException(ex, {
+            extra: context
+          });
+        }
+
+        if(window.console && console.error){
+          console.error = logException;
+        };
+
+        window.onerror = function (message, file, line, column, errorObj) {
+          if (errorObj !== undefined) {
+            logException(errorObj, {'where': 'internal'});
+          } else {
+            logException(message, {'where': 'internal'});
+          }
+        }
+      }
+    </script>
+
+
   </body>
 </html>
