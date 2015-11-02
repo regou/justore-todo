@@ -16,15 +16,20 @@ React.render(
   document.getElementById('todoapp')
 );
 
-window.onerror = function(err){
-  logException(err,{'where':'internal'});
-}
-
-window.onerror = function (message, file, line, column, errorObj) {
-  if(errorObj !== undefined) {
-    logException(errorObj,{'where':'internal'});
-  }else{
-    logException(message,{'where':'internal'});
+if(Raven) {
+  Raven.config('https://df02024c03e94e5e820bd69970c3c8aa@app.getsentry.com/56684').install();
+  function logException(ex, context) {
+    Raven.captureException(ex, {
+      extra: context
+    });
+    window.console && console.error && console.error(ex);
   }
 
+  window.onerror = function (message, file, line, column, errorObj) {
+    if (errorObj !== undefined) {
+      logException(errorObj, {'where': 'internal'});
+    } else {
+      logException(message, {'where': 'internal'});
+    }
+  }
 }
