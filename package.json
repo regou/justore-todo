@@ -14,12 +14,19 @@
   "devDependencies": {
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
+    "exorcist": "^0.4.0",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "*",
     "gulp-sentry-release": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
     "reactify": "^0.15.2",
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "dev": "watchify -o dest/bundle.js -v -d js/app.js"
+    "dev": "gulp watch",
+    "pub": "gulp sentry:release",
+    "del": "gulp sentry:delete"
   },
   "author": "WangXiao",
   "browserify": {
