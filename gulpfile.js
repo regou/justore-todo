@@ -5,6 +5,8 @@ var opt = {
 	debug: true ,
 	versionPrefix: 'release-' // Append before the version number in package.json
 };
+var clientApiUrl = 'https://2ca5c9fc49a24072a962d85f51f3f924@app.getsentry.com/57824';
+
 var sentryRelease = require('gulp-sentry-release')('./package.json', opt);
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -12,8 +14,10 @@ var path = require('path');
 var fs =require('fs');
 
 var gulp = require('gulp');
+var rename = require('gulp-rename');
+var replace = require('gulp-replace');
 var browserify = require('browserify');
-var exorcist = require('exorcist')
+var exorcist = require('exorcist');
 var gutil = require('gulp-util');
 var src = './js/app.js';
 var sentrySrc = [
@@ -56,6 +60,14 @@ gulp.task('sentry:create', function () {
 });
 
 
+
+gulp.task('replaceCatcher', function() {
+	return gulp.src('./catcher_template.js')
+		.pipe(replace('${clientApiUrl}', clientApiUrl))
+		.pipe(replace('${releaseVersion}', version))
+		.pipe(rename('catcher.js'))
+		.pipe(gulp.dest(dest));
+});
 
 gulp.task('js', function() {
 	return browserify({ debug: true })

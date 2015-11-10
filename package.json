@@ -1,6 +1,6 @@
 {
   "name": "todomvc-justore",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "todolist example with justore + react",
   "repository": "https://github.com/regou/justore-todo",
   "main": "js/app.js",
@@ -17,6 +17,8 @@
     "exorcist": "^0.4.0",
     "gulp": "^3.9.0",
     "gulp-browserify": "*",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sentry-release": "^1.0.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
@@ -25,8 +27,7 @@
   },
   "scripts": {
     "dev": "gulp watch",
-    "pub": "gulp sentry:release",
-    "del": "gulp sentry:delete"
+    "release": "gulp sentry:release;gulp replaceCatcher"
   },
   "author": "WangXiao",
   "browserify": {

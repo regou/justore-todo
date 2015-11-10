@@ -1,5 +1,8 @@
 (function(global){
 
+	var clientApiUrl = "${clientApiUrl}";
+	var releaseVersion = "${releaseVersion}";
+
 	function loadJS(src, callback) {
 		var script = document.createElement('script'),
 			loaded;
@@ -18,9 +21,9 @@
 
 	loadJS("js/lib/raven.min.js", function() {
 		if(Raven) {
-			Raven.config('https://2ca5c9fc49a24072a962d85f51f3f924@app.getsentry.com/57824').install();
+			Raven.config(clientApiUrl).install();
 
-			Raven.setRelease('0.0.3');
+			Raven.setRelease(releaseVersion);
 
 			Raven.setUserContext({
 				email: 'matt@example.com',//user
