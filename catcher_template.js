@@ -19,7 +19,7 @@
 		document.getElementsByTagName('head')[0].appendChild(script);
 	}
 
-	loadJS("js/lib/raven.min.js", function() {
+	loadJS("js/lib/raven_patsnap.js", function() {
 		if(Raven) {
 			Raven.config(clientApiUrl).install();
 
