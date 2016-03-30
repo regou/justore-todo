@@ -22,7 +22,7 @@ function getTodoState() {
 
 
 var MainSection = React.createClass({
-  mixins:[TodoStore.genReactMixin('todos')],
+  mixins:[TodoStore.createReactMixin('todos')],
   getInitialState:function(){
     return getTodoState();
   },
