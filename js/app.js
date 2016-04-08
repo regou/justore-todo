@@ -13,6 +13,6 @@ import ReactDOM from 'react-dom';
 var TodoApp = require('./components/TodoApp.js');
 
 ReactDOM.render(
-  <TodoApp />,
-  document.getElementById('todoapp')
+	<TodoApp />,
+	document.getElementById('todoapp')
 );

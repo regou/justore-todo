@@ -14,8 +14,9 @@ var ReactPropTypes = React.PropTypes;
 var TodoTextInput = require('./TodoTextInput.js');
 var TodoStore = require('../stores/TodoStore');
 
-var classNames = require('classnames');
+import DevTools from 'mobx-react-devtools';
 
+var classNames = require('classnames');
 
 
 class TodoItem extends Component {
@@ -27,7 +28,8 @@ class TodoItem extends Component {
 	state = {
 		isEditing: false
 	}
-	constructor(props){
+
+	constructor(props) {
 		super(props);
 	}
 
@@ -41,6 +43,7 @@ class TodoItem extends Component {
 
 	_onSave(text) {
 		this.props.todo.text = text;
+		this.props.todo.time = new Date();
 		this.setState({isEditing: false});
 	}
 
@@ -52,7 +55,7 @@ class TodoItem extends Component {
 	render() {
 		var todo = this.props.todo;
 		return (
-			<li className={classNames({'completed': todo.complete,'editing': this.state.isEditing})}>
+			<li title={todo.time.toLocaleTimeString()} className={classNames({'completed': todo.complete,'editing': this.state.isEditing})}>
 				<div className="view">
 					<input
 						className="toggle"
@@ -63,9 +66,11 @@ class TodoItem extends Component {
 					<label onDoubleClick={()=>this._onDoubleClick()}>
 						{todo.text}
 					</label>
-					<button className="destroy" onClick={()=>this._onDestroyClick()} />
+					<button className="destroy" onClick={()=>this._onDestroyClick()}/>
 				</div>
-				{this.state.isEditing ? <TodoTextInput onSave={this._onSave.bind(this)} className="edit" value={todo.text}/>:null}
+				{this.state.isEditing ?
+					<TodoTextInput onSave={this._onSave.bind(this)} className="edit" value={todo.text}/> : null}
+				<DevTools/>
 			</li>
 		);
 	}

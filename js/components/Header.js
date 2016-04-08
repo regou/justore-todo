@@ -14,35 +14,36 @@ var TodoTextInput = require('./TodoTextInput.js');
 
 var Header = React.createClass({
 
-  /**
-   * @return {object}
-   */
-  render: function() {
-    return (
-      <header id="header">
-        <h1>todos</h1>
-        <TodoTextInput
-          id="new-todo"
-          placeholder="What needs to be done?"
-          onSave={this._onSave}
-        />
-      </header>
-    );
-  },
+	/**
+	 * @return {object}
+	 */
+	render: function () {
+		return (
+			<header id="header">
+				<h1>todos</h1>
+				<TodoTextInput
+					id="new-todo"
+					placeholder="What needs to be done?"
+					onSave={this._onSave}
+				/>
+			</header>
+		);
+	},
 
-  /**
-   * Event handler called within TodoTextInput.
-   * Defining this here allows TodoTextInput to be used in multiple places
-   * in different ways.
-   * @param {string} text
-   */
-  _onSave: function(text) {
-    if (text.trim()){
-        var id = (new Date()).getTime();
-        TodoStore.todos.push({id:id,text:text,complete:false})
-    }
+	/**
+	 * Event handler called within TodoTextInput.
+	 * Defining this here allows TodoTextInput to be used in multiple places
+	 * in different ways.
+	 * @param {string} text
+	 */
+	_onSave: function (text) {
+		if (text.trim()) {
+			let date = new Date();
+			let id = date.getTime();
+			TodoStore.add({id: id, text: text, complete: false,time:date})
+		}
 
-  }
+	}
 
 });
 

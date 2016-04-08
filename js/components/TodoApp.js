@@ -23,18 +23,19 @@ var React = require('react');
 
 var TodoApp = React.createClass({
 
-  /**
-   * @return {object}
-   */
-  render: function() {
-    return (
-      <div>
-        <Header />
-        <MainSection/>
-        <Footer/>
-      </div>
-    );
-  }
+	/**
+	 * @return {object}
+	 */
+	render: function () {
+		return (
+			<div>
+				<Header />
+				<MainSection/>
+				<Footer/>
+
+			</div>
+		);
+	}
 
 });
 

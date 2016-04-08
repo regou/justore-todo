@@ -15,49 +15,48 @@ import {observer} from 'mobx-react';
 
 @observer
 class Footer extends Component {
-  render() {
-    var total = TodoStore.todos.length;
+	render() {
+		var total = TodoStore.todos.length;
 
-    if (total === 0) {
-      return null;
-    }
+		if (total === 0) {
+			return null;
+		}
 
 
+		var itemsLeft = TodoStore.unfinishedTodoCount;
+		var itemsLeftPhrase = itemsLeft === 1 ? ' item ' : ' items ';
+		itemsLeftPhrase += 'left';
 
-    var itemsLeft = TodoStore.unfinishedTodoCount;
-    var itemsLeftPhrase = itemsLeft === 1 ? ' item ' : ' items ';
-    itemsLeftPhrase += 'left';
+		// Undefined and thus not rendered if no completed items are left.
+		var clearCompletedButton;
+		if (TodoStore.finishedTodoCount) {
+			clearCompletedButton =
+				<button
+					id="clear-completed"
+					onClick={this._onClearCompletedClick}>
+					Clear completed ({TodoStore.finishedTodoCount})
+				</button>;
+		}
 
-    // Undefined and thus not rendered if no completed items are left.
-    var clearCompletedButton;
-    if (TodoStore.finishedTodoCount) {
-      clearCompletedButton =
-          <button
-              id="clear-completed"
-              onClick={this._onClearCompletedClick}>
-            Clear completed ({TodoStore.finishedTodoCount})
-          </button>;
-    }
-
-    return (
-        <footer id="footer">
+		return (
+			<footer id="footer">
           <span id="todo-count">
             <strong>
-              {itemsLeft}
-            </strong>
-            {itemsLeftPhrase}
+				{itemsLeft}
+			</strong>
+			  {itemsLeftPhrase}
           </span>
-          {clearCompletedButton}
-        </footer>
-    );
-  }
+				{clearCompletedButton}
+			</footer>
+		);
+	}
 
-  /**
-   * Event handler to delete all completed TODOs
-   */
-  _onClearCompletedClick() {
-    TodoStore.clearCompleted();
-  }
+	/**
+	 * Event handler to delete all completed TODOs
+	 */
+	_onClearCompletedClick() {
+		TodoStore.clearCompleted();
+	}
 }
 
 
