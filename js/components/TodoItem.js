@@ -7,7 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var React = require('react');
+import React, {Component} from 'react';
+import {observer} from "mobx-react";
 var ReactPropTypes = React.PropTypes;
 
 var TodoTextInput = require('./TodoTextInput.js');
@@ -15,86 +16,60 @@ var TodoStore = require('../stores/TodoStore');
 
 var classNames = require('classnames');
 
-var TodoItem = React.createClass({
 
-  propTypes: {
-   todo: ReactPropTypes.object.isRequired
-  },
 
-  getInitialState: function() {
-    return {
-      isEditing: false
-    };
-  },
-  render: function() {
-    var todo = this.props.todo;
-    return (
-      <li className={classNames({'completed': todo.complete,'editing': this.state.isEditing})} key={todo.id}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={todo.complete}
-            onChange={this._onToggleComplete}
-          />
-          <label onDoubleClick={this._onDoubleClick}>
-            {todo.text}
-          </label>
-          <button className="destroy" onClick={this._onDestroyClick} />
-        </div>
-		  {this.state.isEditing ? <TodoTextInput onSave={this._onSave} className="edit" value={todo.text}/>:null}
-      </li>
-    );
-  },
+class TodoItem extends Component {
+	static defaultProps = {}
+	static propTypes = {
+		todo: ReactPropTypes.object.isRequired
+	}
 
-  _onToggleComplete: function() {
+	state = {
+		isEditing: false
+	}
+	constructor(props){
+		super(props);
+	}
 
-	  var todoId = this.props.todo.id;
+	_onDoubleClick() {
+		this.setState({isEditing: true});
+	}
 
-    TodoStore.write('todos',todoId, {
-		  waitFor:function(id){
-            return new Promise(function(res){
-              var todos = TodoStore.getTodos();
-              todos[id].complete = !todos[id].complete;
-              res(todos);
-            });
+	_onToggleComplete() {
+		this.props.todo.complete = !!!this.props.todo.complete
+	}
 
-		  }
-	  });
-  },
+	_onSave(text) {
+		this.props.todo.text = text;
+		this.setState({isEditing: false});
+	}
 
-  _onDoubleClick: function() {
-    this.setState({isEditing: true});
-  },
+	_onDestroyClick() {
+		TodoStore.del(this.props.todo);
+	}
 
-  /**
-   * Event handler called within TodoTextInput.
-   * Defining this here allows TodoTextInput to be used in multiple places
-   * in different ways.
-   * @param  {string} text
-   */
-  _onSave: function(text) {
-	  var todoId = this.props.todo.id;
-	  TodoStore.write('todos',todoId, {
-		  waitFor:function(id){
-			  return new Promise(function(res){
-				  var todos = TodoStore.getTodos();
-				  todos[id].text = text;
-				  res(todos);
-			  });
 
-		  }
-	  });
-    this.setState({isEditing: false});
-  },
+	render() {
+		var todo = this.props.todo;
+		return (
+			<li className={classNames({'completed': todo.complete,'editing': this.state.isEditing})}>
+				<div className="view">
+					<input
+						className="toggle"
+						type="checkbox"
+						checked={todo.complete}
+						onChange={()=>this._onToggleComplete()}
+					/>
+					<label onDoubleClick={()=>this._onDoubleClick()}>
+						{todo.text}
+					</label>
+					<button className="destroy" onClick={()=>this._onDestroyClick()} />
+				</div>
+				{this.state.isEditing ? <TodoTextInput onSave={this._onSave.bind(this)} className="edit" value={todo.text}/>:null}
+			</li>
+		);
+	}
+}
 
-  _onDestroyClick: function() {
-	  var id = this.props.todo.id;
-	  var newTodos = TodoStore.getTodos();
-	  delete newTodos[id];
-    TodoStore.write('todos',newTodos);
-  }
-
-});
 
 module.exports = TodoItem;

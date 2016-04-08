@@ -2,31 +2,35 @@
 var objectAssign = require('object-assign');
 var justore = require('justore');
 
-
-var TodoStore = new justore({
-  'todos': {
-	  '1':{id:1,text:'get some cookies',complete:false},
-	  '2':{id:2,text:'eat them',complete:false}
-  },
-	'hoverTarget':null
-});
+import React, {Component} from 'react';
+import {observable,computed} from 'mobx';
+import {observer} from 'mobx-react';
 
 
-TodoStore.getTodos = function(){
-	return objectAssign({},TodoStore.read('todos'));
-};
-
-TodoStore.clearCompleted = function(){
-	var todos = TodoStore.getTodos();
-	for(key in todos){
-		if(todos[key].complete){
-			delete todos[key];
-		}
+class ObservableTodoStore {
+	@observable todos = [
+		{id:1,text:'get some cookies',complete:false},
+		{id:2,text:'eat them',complete:false}
+	];
+	@computed get unfinishedTodoCount() {
+		return this.todos.filter(todo => !todo.complete).length;
 	}
-	TodoStore.write('todos',todos);
-};
+	@computed get finishedTodoCount() {
+		return this.todos.filter(todo => todo.complete).length;
+	}
+
+	del(todo){
+		this.todos = this.todos.filter((item)=>item != todo);
+	}
+
+	clearCompleted(){
+		this.todos = this.todos.filter((item)=>!item.complete);
+	}
+
+}
 
 
 
 
-module.exports = TodoStore;
+
+module.exports = new ObservableTodoStore();

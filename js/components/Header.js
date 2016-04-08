@@ -38,11 +38,8 @@ var Header = React.createClass({
    */
   _onSave: function(text) {
     if (text.trim()){
-      var id = (new Date()).getTime();
-
-        var newTodos = TodoStore.getTodos();
-        newTodos[id] = {id:id,text:text,complete:false};
-         TodoStore.write('todos',newTodos);
+        var id = (new Date()).getTime();
+        TodoStore.todos.push({id:id,text:text,complete:false})
     }
 
   }

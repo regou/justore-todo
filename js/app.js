@@ -8,10 +8,11 @@
  */
 
 var React = require('react');
+import ReactDOM from 'react-dom';
 
 var TodoApp = require('./components/TodoApp.js');
 
-React.render(
+ReactDOM.render(
   <TodoApp />,
   document.getElementById('todoapp')
 );
