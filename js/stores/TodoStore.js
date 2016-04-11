@@ -9,11 +9,18 @@ class ObservableTodoStore {
 		{id: 2, text: 'eat them', complete: false,time:new Date(1460121705375)}
 	];
 
-	@computed get unfinishedTodoCount() {
+	// @computed get unfinishedTodoCount() {
+	// 	return this.todos.filter(todo => !todo.complete).length;
+	// }
+	get unfinishedTodoCount() {
 		return this.todos.filter(todo => !todo.complete).length;
 	}
 
-	@computed get finishedTodoCount() {
+	// @computed get finishedTodoCount() {
+	// 	return this.todos.filter(todo => todo.complete).length;
+	// }
+
+	get finishedTodoCount() {
 		return this.todos.filter(todo => todo.complete).length;
 	}
 
