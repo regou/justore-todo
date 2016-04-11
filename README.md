@@ -1,5 +1,5 @@
 
-justore-todoApp
+mobx-todoApp
 ========
 
 React todoapp use [Mobx](https://github.com/mobxjs/mobx)
