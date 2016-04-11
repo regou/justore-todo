@@ -2,7 +2,7 @@
 justore-todoApp
 ========
 
-React todoapp use [JuStore](https://github.com/regou/justore)
+React todoapp use [Mobx](https://github.com/mobxjs/mobx)
 
 ### Play the demo
     $ npm install
