@@ -28,9 +28,8 @@ class MainSection extends Component {
 
 		var areAllComplete = TodoStore.unfinishedTodoCount <= 0;
 
-		var todos = [];
-		TodoStore.todos.forEach(function (todo, idx) {
-			todos.push(<TodoItem key={todo.id} todo={todo}/>);
+		var todos = TodoStore.todos.map(function (todo, idx) {
+			return (<TodoItem key={todo.id} todo={todo}/>);
 		});
 
 		return (

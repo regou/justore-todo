@@ -46,6 +46,9 @@ class TodoItem extends Component {
 		this.props.todo.time = new Date();
 		this.setState({isEditing: false});
 	}
+	_onCancel(){
+		this.setState({isEditing: false});
+	}
 
 	_onDestroyClick() {
 		TodoStore.del(this.props.todo);
@@ -69,7 +72,7 @@ class TodoItem extends Component {
 					<button className="destroy" onClick={()=>this._onDestroyClick()}/>
 				</div>
 				{this.state.isEditing ?
-					<TodoTextInput onSave={this._onSave.bind(this)} className="edit" value={todo.text}/> : null}
+					<TodoTextInput onCancel={()=>this._onCancel()} onSave={this._onSave.bind(this)} className="edit" value={todo.text}/> : null}
 				<DevTools/>
 			</li>
 		);

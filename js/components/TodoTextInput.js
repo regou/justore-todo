@@ -12,6 +12,7 @@ var ReactPropTypes = React.PropTypes;
 var TodoStore = require('../stores/TodoStore');
 
 var ENTER_KEY_CODE = 13;
+var ESC_KEY_CODE = 27;
 
 var TodoTextInput = React.createClass({
 
@@ -73,6 +74,11 @@ var TodoTextInput = React.createClass({
 	_onKeyDown: function (event) {
 		if (event.keyCode === ENTER_KEY_CODE) {
 			this._save();
+		}else if(event.keyCode === ESC_KEY_CODE){
+			this.setState({
+				value: this.props.value
+			});
+			this.props.onCancel(event);
 		}
 	}
 
