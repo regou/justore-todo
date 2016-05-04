@@ -50,17 +50,7 @@ var TodoItem = React.createClass({
   _onToggleComplete: function() {
 
 	  var todoId = this.props.todo.id;
-
-    TodoStore.write('todos',todoId, {
-		  waitFor:function(id){
-            return new Promise(function(res){
-              var todos = TodoStore.getTodos();
-              todos[id].complete = !todos[id].complete;
-              res(todos);
-            });
-
-		  }
-	  });
+	  TodoStore.toggleComplete(todoId);
   },
 
   _onDoubleClick: function() {
@@ -75,24 +65,13 @@ var TodoItem = React.createClass({
    */
   _onSave: function(text) {
 	  var todoId = this.props.todo.id;
-	  TodoStore.write('todos',todoId, {
-		  waitFor:function(id){
-			  return new Promise(function(res){
-				  var todos = TodoStore.getTodos();
-				  todos[id].text = text;
-				  res(todos);
-			  });
-
-		  }
-	  });
-    this.setState({isEditing: false});
+	  TodoStore.updateTodo(todoId,text);
+	  this.setState({isEditing: false});
   },
 
   _onDestroyClick: function() {
 	  var id = this.props.todo.id;
-	  var newTodos = TodoStore.getTodos();
-	  delete newTodos[id];
-    TodoStore.write('todos',newTodos);
+	  TodoStore.deleteTodo(id);
   }
 
 });

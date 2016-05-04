@@ -26,6 +26,24 @@ TodoStore.clearCompleted = function(){
 	TodoStore.write('todos',todos);
 };
 
+TodoStore.deleteTodo = function(id){
+	var newTodos = TodoStore.getTodos();
+	delete newTodos[id];
+	TodoStore.write('todos',newTodos);
+};
+
+TodoStore.updateTodo = function(id,text){
+	var todos = TodoStore.getTodos();
+	todos[id].text = text;
+	TodoStore.write('todos',todos);
+};
+
+TodoStore.toggleComplete = function(id){
+	var todos = TodoStore.getTodos();
+	todos[id].complete = !todos[id].complete;
+	TodoStore.write('todos',todos);
+};
+
 
 
 
