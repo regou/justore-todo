@@ -33,15 +33,12 @@ TodoStore.deleteTodo = function(id){
 };
 
 TodoStore.updateTodo = function(id,text){
-	var todos = TodoStore.getTodos();
-	todos[id].text = text;
-	TodoStore.write('todos',todos);
+	TodoStore.update(`todos.${id}.text`,text);
 };
 
 TodoStore.toggleComplete = function(id){
 	var todos = TodoStore.getTodos();
-	todos[id].complete = !todos[id].complete;
-	TodoStore.write('todos',todos);
+	TodoStore.update(`todos.${id}.complete`,!todos[id].complete);
 };
 
 

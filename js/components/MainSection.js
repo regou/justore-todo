@@ -75,13 +75,7 @@ var MainSection = React.createClass({
    * Event handler to mark all TODOs as complete
    */
   _onToggleCompleteAll: function(areAllComplete) {
-
-    var todos = TodoStore.getTodos();
-    Object.keys(todos).forEach(function(id){
-		todos[id].complete = !areAllComplete;
-	})
-
-    TodoStore.write('todos',todos);
+	  TodoStore.update('todos.*.complete',!areAllComplete);
   }
 
 });
